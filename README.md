@@ -118,6 +118,12 @@ In most cases you'll need `npm install` and `npm run build-prod` and then check 
 
 (Of course in reality you'd rather throw out the javascript source files and use your framework there instead of only changing the html file.)
 
+Make sure you preload the glyphicon by adding the following tag somewhere on the page before you create the rows:
+
+```
+<span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+```
+
 ## 4. Running a single framework with the automated benchmark driver
 
 The benchmark uses an automated benchmark driver using chromedriver to measure the duration for each operation using chrome's timeline. Here are the steps to run is for a single framework:
