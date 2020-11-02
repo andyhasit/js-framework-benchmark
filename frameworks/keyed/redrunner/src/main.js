@@ -1,7 +1,4 @@
-import {mount} from 'redrunner'
 import {Main} from './views'
-import {store} from './store'
+import {app} from './app'
 
-// Mount returns the view it creates.
-// We're simply saving that on the store so we can update() it.
-store.mainView = mount('#main', Main)
+app.mount('#main', Main)

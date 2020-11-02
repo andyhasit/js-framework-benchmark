@@ -1,3 +1,9 @@
+/*
+This module contains the views which control the UI.
+
+*/
+
+const c = console;
 import {View, ViewCache, Wrapper} from 'redrunner'
 import {store} from './store'
 
@@ -5,12 +11,16 @@ import {store} from './store'
 export class Main extends View {
   __html__ = `
     <div class="container">
-      <Jumbotron />
+      <use:Jumbotron />
       <table class="table table-hover table-striped test-data">
-        <tbody id="tbody" :nest="|..store.lines|Row:id"></tbody>
+        <tbody id="tbody" :items="*|.rowProps|Row"></tbody>
       </table>
+      <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
   `
+  rowProps() {
+    return store.items.map(item => ({item: item, selected: item.id == store.selected}))
+  }
 }
 
 
@@ -21,7 +31,7 @@ class Jumbotron extends View {
         <div class="col-md-6">
           <h1>RedRunner keyed</h1>
         </div>
-        <div :nest="|..store.buttons|Button" class="col-md-6">
+        <div :items="|..store.buttons.|Button" class="col-md-6">
         </div>
       </div>
     </div>
@@ -32,7 +42,7 @@ class Jumbotron extends View {
 class Button extends View {
   __html__ = `
     <div class="col-sm-6 smallpad">
-      <button :on="click|.clicked" class="btn btn-primary btn-block">{{title}}</button>
+      <button id="{{id}}" :onClick=".clicked" class="btn btn-primary btn-block">{{title}}</button>
     </div>
   `
   clicked() {
@@ -43,27 +53,34 @@ class Button extends View {
 
 class Row extends View {
   __clone__ = `
-    <tr :watch="..store.selected|.amISelected?|css">
-      <td class="col-md-1">{{id}}</td>
+    <tr class="{{selected|.cssClass}}">
+      <td class="col-md-1">{{item.id}}</td>
       <td class="col-md-4">
-        <a :on="click|.selectMe" class="lbl">{{label}}</a>
+        <a :onClick=".selectMe" class="lbl">{{item.label}}</a>
       </td>
       <td class="col-md-1">
-        <a class="remove" :on="click|.removeMe">
-          <span class="glyphicon glyphicon-remove"></span>
+        <a class="remove" :onClick=".removeMe">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </a>
       </td>
       <td class="col-md-6">
       </td>
     </tr>
   `
-  amISelected(n,o) {
-    return n == this.props.id ? 'danger' : ''
+  cssClass(n, o, w) {
+    return n ? 'danger' : ''
+  }
+  update() {
+    // if (this.lookup('id').c || this.lookup('selected').c) {
+
+    // }
+    this.resetLookups()
+    this.updateSelf()
   }
   selectMe() {
-    store.select(this.props)
+    store.select(this.props.item)
   }
   removeMe() {
-    store.remove(this.props)
+    store.remove(this.props.item)
   }
 }
