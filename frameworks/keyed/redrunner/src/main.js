@@ -1,4 +1,4 @@
-import {Main} from './views'
-import {app} from './app'
+import {mount, h} from 'redrunner'
+import {MainView} from './views'
 
-app.mount('#main', Main)
+mount('#main', MainView)
