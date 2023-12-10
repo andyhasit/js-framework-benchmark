@@ -1,0 +1,30 @@
+{
+  "name": "js-framework-benchmark-non-keyed-gleekit",
+  "version": "1.0.0",
+  "description": "JS framework benchmark built with gleekit.",
+  "js-framework-benchmark": {
+    "frameworkVersionFromPackage": "gleekit",
+    "frameworkHomeURL": "https://gleekit.js/"
+  },
+  "keywords": [
+    "gleekit"
+  ],
+  "main": "src/main.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "build-prod": "NODE_ENV=production webpack"
+  },
+  "author": "Andrew Buchan",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.14",
+    "babel-loader": "^9.1.3",
+    "gleekit": "^0.0.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "jsdom": "^22.1.0"
+  }
+}
